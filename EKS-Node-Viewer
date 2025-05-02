@@ -1,0 +1,23 @@
+#Install EKS-Node-Viewer
+
+#1.Download the latest version (adjust version number as needed)
+wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
+#2.Remove any existing Go installation
+sudo rm -rf /usr/local/go
+#3.Extract Go to /usr/local
+sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
+#4.Set up the Go environment by adding these lines to your ~/.bashrc or ~/.profile:
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+#5.Apply the changes:
+source ~/.bashrc # or source ~/.profile
+#6.Verify the installation:
+go version
+
+#Install Node Viewer
+go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@latest
+
+# Karpenter nodes only
+eks-node-viewer --node-selector karpenter.sh/nodepool
+# Display both CPU and Memory Usage
+eks-node-viewer --resources cpu,memory

@@ -1,0 +1,21 @@
+#to get the list of nodes with the corresponding nodepool
+kubectl get nodes -L kubernetes.io/arch -L karpenter.sh/nodepool
+
+#Update the Instance Profile IAM role for the VSCodeServer to match your Console role
+# First, get the association ID for the instance
+aws ec2 describe-iam-instance-profile-associations \
+    --filters Name=instance-id,Values=i-06541d736ef8bff53
+# get the current IAM role associated to the instance profile
+aws iam get-instance-profile --instance-profile-name VSCodeServer-Summit-VSCodeInstanceProfile-QIdb0dRcRVeY
+# Remove the existing role
+aws iam remove-role-from-instance-profile \
+    --instance-profile-name VSCodeServer-Summit-VSCodeInstanceProfile-QIdb0dRcRVeY \
+    --role-name VSCodeServer-Summit-VSCodeInstanceBootstrapRole-fGpd35mzoZc8/i-06541d736ef8bff53
+# Add role to instance profile
+aws iam add-role-to-instance-profile \
+    --role-name Admin-OneClick \
+    --instance-profile-name VSCodeServer-Summit-VSCodeInstanceProfile-QIdb0dRcRVeY
+# get instance metadata
+curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/
+# Manually force credential refresh
+rm -rf ~/.aws/credentials
