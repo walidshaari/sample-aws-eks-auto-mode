@@ -1,0 +1,9 @@
+# Ignore Go packages
+*.tar.gz
+
+# Ignore q directory (if you don't want to include it)
+q/
+
+# Other common files to ignore
+*.log
+*.tmp
