@@ -19,6 +19,8 @@ spec:
       labels:
         app.kubernetes.io/name: app-2048
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64 #to be scheduled on arm64 only
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone

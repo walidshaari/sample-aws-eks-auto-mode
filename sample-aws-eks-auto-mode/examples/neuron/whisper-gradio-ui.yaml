@@ -13,10 +13,12 @@ spec:
       labels:
         app: whisper-gradio
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64 #the container image runs only on amd64 and X86, It doesn’t support arm64
       tolerations:
       - key: "workload"
         operator: "Equal"
-        value: "aws.neuron"
+        value: "cpu"
         effect: "NoSchedule"
       securityContext:
         seccompProfile:
