@@ -19,7 +19,7 @@ module "eks" {
 
   cluster_compute_config = {
     enabled    = true
-    node_pools = ["system"] 
+    node_pools = [] 
   }
   tags = local.tags
 }

@@ -63,9 +63,9 @@ kubectl apply -f neuron-nodepool.yaml
 >
 > ```yaml
 > taints:
->   - key: "aws.amazon.com/neuron"
->     value: "true"
->     effect: "NoSchedule"   # Prevents non-Neuron pods from scheduling
+>   - key: "workload"
+>     value: "aws.amazon.com/neuron"
+>     effect: NoSchedule  # Prevents non-Neuron pods from scheduling
 > ```
 >
 > Any pods that need to run on Neuron nodes must include matching tolerations in their specifications.

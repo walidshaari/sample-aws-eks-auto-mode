@@ -63,7 +63,7 @@ Deploy the NodePool that will manage our instances:
 ```bash
 cd ../nodepools
 
-kubectl apply -f multi-arch-nodepool.yaml
+kubectl apply -f cpu-nodepool.yaml
 ```
 
 ### 3. Deploy the 2048 Game
@@ -107,7 +107,7 @@ kubectl delete -f 2048-ingress.yaml
 kubectl delete -f game-2048.yaml
 
 # Remove node pool
-kubectl delete -f ../../nodepools/multi-arch-nodepool.yaml
+kubectl delete -f ../../nodepools/cpu-nodepool.yaml
 ```
 
 ### 2. Remove Cluster (Optional)
