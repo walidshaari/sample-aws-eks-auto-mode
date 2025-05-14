@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # This script sets up the environment to run eks-node-viewer
 
 # Source the bashrc to ensure Go environment is set up

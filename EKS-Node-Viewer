@@ -21,3 +21,6 @@ go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@latest
 eks-node-viewer --node-selector karpenter.sh/nodepool
 # Display both CPU and Memory Usage
 eks-node-viewer --resources cpu,memory
+
+# Run eks-node-viewer
+eks-node-viewer --resources cpu,memory --extra-labels karpenter.sh/nodepool,topology.kubernetes.io/zone

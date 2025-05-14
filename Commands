@@ -1,3 +1,7 @@
+#to monitor pod scheduling on nodes and karpenter in eks auto mode use
+kubectl get events
+kubectl get events -w
+
 #to get the list of nodes with the corresponding nodepool
 kubectl get nodes -L kubernetes.io/arch -L karpenter.sh/nodepool
 
