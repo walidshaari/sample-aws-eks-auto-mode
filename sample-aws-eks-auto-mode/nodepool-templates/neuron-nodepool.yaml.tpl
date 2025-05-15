@@ -20,9 +20,6 @@ metadata:
   name: neuron-nodepool
 spec:
   template:
-    metadata:
-      labels:
-        eks.amazonaws.com/nodegroup: neuron-nodepool
     spec:
       nodeClassRef:
         group: eks.amazonaws.com

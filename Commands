@@ -23,3 +23,8 @@ aws iam add-role-to-instance-profile \
 curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/
 # Manually force credential refresh
 rm -rf ~/.aws/credentials
+
+# Change authentication mode to use access entries
+aws eks update-cluster-config --name automode-cluster --access-config authenticationMode=API_AND_CONFIG_MAP
+aws eks create-access-entry --cluster-name automode-cluster --principal-arn arn:aws:iam::849244120529:role/VSCodeServer-Summit-VSCodeInstanceBootstrapRole-fGpd35mzoZc8 --type STANDARD --user admin --kubernetes-groups system:masters
+aws eks update-kubeconfig --name automode-cluster --region us-east-1

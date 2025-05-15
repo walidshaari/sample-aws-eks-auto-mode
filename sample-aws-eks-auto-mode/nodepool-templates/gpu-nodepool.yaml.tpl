@@ -20,9 +20,6 @@ metadata:
   name: gpu-nodepool
 spec:
   template:
-    metadata:
-      labels:
-        eks.amazonaws.com/nodegroup: gpu-nodepool
     spec:
       nodeClassRef:
         group: eks.amazonaws.com

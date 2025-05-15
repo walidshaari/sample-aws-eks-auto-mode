@@ -20,9 +20,6 @@ metadata:
   name: cpu-nodepool
 spec:
   template:
-    metadata:
-      labels:
-        eks.amazonaws.com/nodegroup: cpu-nodepool
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
