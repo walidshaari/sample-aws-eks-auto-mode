@@ -28,3 +28,6 @@ rm -rf ~/.aws/credentials
 aws eks update-cluster-config --name automode-cluster --access-config authenticationMode=API_AND_CONFIG_MAP
 aws eks create-access-entry --cluster-name automode-cluster --principal-arn arn:aws:iam::849244120529:role/VSCodeServer-Summit-VSCodeInstanceBootstrapRole-fGpd35mzoZc8 --type STANDARD --user admin --kubernetes-groups system:masters
 aws eks update-kubeconfig --name automode-cluster --region us-east-1
+
+# Neuron: Watching the compilation batch job status
+kubectl get job whisper-model-compile -n whisper-neuron -w

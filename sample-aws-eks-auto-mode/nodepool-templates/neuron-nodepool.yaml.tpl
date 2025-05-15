@@ -33,8 +33,8 @@ spec:
           operator: In
           values: ["spot", "on-demand"]
       taints:
-        - key: "workload"
-          value: "aws.amazon.com/neuron"
+        - key: "aws.amazon.com/neuron"
+          value: "true"
           effect: NoSchedule
   limits:
     cpu: 1000

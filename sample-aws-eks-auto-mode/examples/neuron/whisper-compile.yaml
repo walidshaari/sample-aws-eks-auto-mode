@@ -12,10 +12,9 @@ spec:
     spec:
       restartPolicy: Never
       tolerations:
-      - key: "workload"
-        operator: "Equal"
-        value: "aws.neuron"
-        effect: "NoSchedule"
+        - key: aws.amazon.com/neuron
+          value: "true"
+          effect: "NoSchedule"
       securityContext:
         seccompProfile:
           type: RuntimeDefault

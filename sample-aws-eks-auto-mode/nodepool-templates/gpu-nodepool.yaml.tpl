@@ -33,8 +33,8 @@ spec:
           operator: In
           values: ["spot", "on-demand"]
       taints:
-        - key: "workload"
-          value: "nvidia.com/gpu"
+        - key: "nvidia.com/gpu"
+          value: "true"
           effect: NoSchedule
   limits:
     cpu: 1000

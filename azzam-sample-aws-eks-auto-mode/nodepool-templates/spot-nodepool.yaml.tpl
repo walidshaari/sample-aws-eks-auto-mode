@@ -2,7 +2,7 @@
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: graviton-nodeclass
+  name: spot-nodeclass
 spec:
   role: ${node_iam_role_name}
   subnetSelectorTerms:
@@ -17,14 +17,14 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: graviton-nodepool
+  name: spot-nodepool
 spec:
   template:
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
         kind: NodeClass
-        name: graviton-nodeclass
+        name: spot-nodeclass
       requirements:
         - key: "eks.amazonaws.com/instance-category"
           operator: In
@@ -37,9 +37,9 @@ spec:
           values: ["arm64"]
         - key: "karpenter.sh/capacity-type"
           operator: In
-          values: ["spot", "on-demand"]
+          values: ["spot"]
       taints:
-        - key: "arm64"
+        - key: "spot"
           value: "true"
           effect: "NoSchedule"
   limits:

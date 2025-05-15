@@ -66,8 +66,9 @@ spec:
         secret:
           secretName: hf-secret
       tolerations:
-        - key: nvidia.com/gpu
-          value: "true"
+        - key: "workload"
+          operator: "Equal"
+          value: "nvidia.gpu"
           effect: "NoSchedule"
 ---
 apiVersion: v1

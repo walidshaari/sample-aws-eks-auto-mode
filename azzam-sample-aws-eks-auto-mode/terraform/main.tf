@@ -27,9 +27,10 @@ provider "helm" {
 # Common data/locals
 ################################################################################
 
-data "aws_ecrpublic_authorization_token" "token" {
-  provider = aws.ecr
-}
+# Commenting out ECR token to avoid permission issues during destroy
+# data "aws_ecrpublic_authorization_token" "token" {
+#   provider = aws.ecr
+# }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones
 data "aws_availability_zones" "available" {

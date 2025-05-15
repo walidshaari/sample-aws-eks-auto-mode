@@ -73,9 +73,9 @@ kubectl apply -f gpu-nodepool.yaml
 >
 > ```yaml
 > taints:
->   - key: "nvidia.com/gpu"
->     value: "true"
->     effect: "NoSchedule"   # Prevents non-GPU pods from scheduling
+>   - key: "workload"
+>     value: "nvidia.gpu"
+>     effect: NoSchedule  # Prevents non-GPU pods from scheduling
 > ```
 >
 > Any pods that need to run on GPU nodes must include matching tolerations in their specifications.
@@ -107,9 +107,10 @@ kubectl apply -f vllm-deepseek-gpu.yaml
 >
 > ```yaml
 > tolerations:
->   - key: "nvidia.com/gpu"     # Matches the GPU node taint
->     value: "true"
->     effect: "NoSchedule"      # Allows scheduling on tainted nodes
+>  - key: "workload"
+>    operator: "Equal"
+>    value: "nvidia.gpu"
+>    effect: "NoSchedule" 
 > ```
 >
 > This toleration enables the pods to be scheduled on our GPU-enabled instances.

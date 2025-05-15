@@ -1,29 +1,28 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: whisper-inference-deployment
+  name: whisper-model-compile
   namespace: whisper-neuron
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: whisper-inference
+  backoffLimit: 0
   template:
     metadata:
       labels:
-        app: whisper-inference
+        app: whisper-compile
     spec:
+      restartPolicy: Never
       tolerations:
-        - key: aws.amazon.com/neuron
-          value: "true"
-          effect: "NoSchedule"
+      - key: "workload"
+        operator: "Equal"
+        value: "aws.neuron"
+        effect: "NoSchedule"
       securityContext:
         seccompProfile:
           type: RuntimeDefault
       automountServiceAccountToken: false
       containers:
-      - name: whisper-inference
-        image: public.ecr.aws/v2f5y6u4/whisper-neuron/service:latest@sha256:b19d28bca1bbeb12b85665408381e2c5df08160247abe26c0b800f4ee7f32bfd
+      - name: model-compiler
+        image: public.ecr.aws/v2f5y6u4/whisper-neuron/compile:latest@sha256:9f07c6ae98ed6fa6616811cf359153b2472996603abc6cf9d8ee84522b65a36a
         imagePullPolicy: Always
         securityContext:
             allowPrivilegeEscalation: false
@@ -41,15 +40,6 @@ spec:
             aws.amazon.com/neuron: "1"
             memory: "128Gi"
             cpu: "32"
-        env:
-        - name: MODEL_PATH
-          value: "/models"
-        - name: PORT
-          value: "8000"
-        - name: NEURON_RT_NUM_CORES
-          value: "1"
-        ports:
-        - containerPort: 8000
         volumeMounts:
         - name: model-storage
           mountPath: /models
@@ -57,17 +47,3 @@ spec:
       - name: model-storage
         persistentVolumeClaim:
           claimName: model-storage-claim
----
-# Service to access the Whisper deployment 
-apiVersion: v1
-kind: Service
-metadata:
-  name: whisper-inference-service
-  namespace: whisper-neuron
-spec:
-  selector:
-    app: whisper-inference
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8000

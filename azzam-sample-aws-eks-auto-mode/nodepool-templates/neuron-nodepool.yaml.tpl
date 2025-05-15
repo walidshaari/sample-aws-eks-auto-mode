@@ -2,7 +2,7 @@
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: graviton-nodeclass
+  name: neuron-nodeclass
 spec:
   role: ${node_iam_role_name}
   subnetSelectorTerms:
@@ -17,31 +17,25 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: graviton-nodepool
+  name: neuron-nodepool
 spec:
   template:
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
         kind: NodeClass
-        name: graviton-nodeclass
+        name: neuron-nodeclass
       requirements:
-        - key: "eks.amazonaws.com/instance-category"
+        - key: "eks.amazonaws.com/instance-family"
           operator: In
-          values: ["c", "m", "r"]
-        - key: "eks.amazonaws.com/instance-cpu"
-          operator: In
-          values: ["4", "8", "16", "32"]
-        - key: "kubernetes.io/arch"
-          operator: In
-          values: ["arm64"]
+          values: ["inf1", "inf2", "inf3"]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: ["spot", "on-demand"]
       taints:
-        - key: "arm64"
-          value: "true"
-          effect: "NoSchedule"
+        - key: "workload"
+          value: "aws.amazon.com/neuron"
+          effect: NoSchedule
   limits:
     cpu: 1000
   disruption:

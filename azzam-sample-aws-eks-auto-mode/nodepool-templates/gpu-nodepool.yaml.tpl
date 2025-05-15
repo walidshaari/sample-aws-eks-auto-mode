@@ -2,7 +2,7 @@
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: graviton-nodeclass
+  name: gpu-nodeclass
 spec:
   role: ${node_iam_role_name}
   subnetSelectorTerms:
@@ -17,31 +17,25 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: graviton-nodepool
+  name: gpu-nodepool
 spec:
   template:
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
         kind: NodeClass
-        name: graviton-nodeclass
+        name: gpu-nodeclass
       requirements:
-        - key: "eks.amazonaws.com/instance-category"
+        - key: "eks.amazonaws.com/instance-family"
           operator: In
-          values: ["c", "m", "r"]
-        - key: "eks.amazonaws.com/instance-cpu"
-          operator: In
-          values: ["4", "8", "16", "32"]
-        - key: "kubernetes.io/arch"
-          operator: In
-          values: ["arm64"]
+          values: ["g3", "g4", "g5", "g6", "p3", "p4", "p5"]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: ["spot", "on-demand"]
       taints:
-        - key: "arm64"
-          value: "true"
-          effect: "NoSchedule"
+        - key: "workload"
+          value: "nvidia.com/gpu"
+          effect: NoSchedule
   limits:
     cpu: 1000
   disruption:

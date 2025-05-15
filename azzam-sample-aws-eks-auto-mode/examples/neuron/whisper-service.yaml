@@ -14,9 +14,10 @@ spec:
         app: whisper-inference
     spec:
       tolerations:
-        - key: aws.amazon.com/neuron
-          value: "true"
-          effect: "NoSchedule"
+      - key: "workload"
+        operator: "Equal"
+        value: "aws.neuron"
+        effect: "NoSchedule"
       securityContext:
         seccompProfile:
           type: RuntimeDefault
