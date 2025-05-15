@@ -28,7 +28,7 @@ spec:
       requirements:
         - key: "eks.amazonaws.com/instance-family"
           operator: In
-          values: ["g5"]
+          values: ["g4","g5","g6"]
         - key: "eks.amazonaws.com/instance-size"
           operator: In
           values: [ "2xlarge", "4xlarge", "8xlarge", "12xlarge", "24xlarge", "48xlarge" ]
