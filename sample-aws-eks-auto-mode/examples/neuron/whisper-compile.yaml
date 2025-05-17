@@ -23,6 +23,9 @@ spec:
       - name: model-compiler
         image: public.ecr.aws/v2f5y6u4/whisper-neuron/compile:latest@sha256:9f07c6ae98ed6fa6616811cf359153b2472996603abc6cf9d8ee84522b65a36a
         imagePullPolicy: Always
+        command: ["python"]
+        args:
+          - "/app/compile.py"
         securityContext:
             allowPrivilegeEscalation: false
             capabilities:

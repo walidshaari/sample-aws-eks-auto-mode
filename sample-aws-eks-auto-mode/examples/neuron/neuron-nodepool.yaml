@@ -1,0 +1,36 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: neuron-nodepool
+spec:
+  disruption:
+    budgets:
+    - nodes: 10%
+    consolidateAfter: 30s
+    consolidationPolicy: WhenEmpty
+  limits:
+    cpu: 1000
+  template:
+    spec:
+      expireAfter: 336h
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: neuron-nodeclass
+      requirements:
+      - key: eks.amazonaws.com/instance-family
+        operator: In
+        values:
+        - inf1
+        - inf2
+        - inf3
+        - trn2
+      - key: karpenter.sh/capacity-type
+        operator: In
+        values:
+        - spot
+        - on-demand
+      taints:
+      - effect: NoSchedule
+        key: aws.amazon.com/neuron
+        value: "true"
