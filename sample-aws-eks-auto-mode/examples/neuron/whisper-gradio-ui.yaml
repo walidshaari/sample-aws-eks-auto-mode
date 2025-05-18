@@ -29,6 +29,8 @@ spec:
             seccompProfile:
               type: RuntimeDefault
         env:
+        - name: GRADIO_ROOT_PATH
+          value: "/whisper"
         - name: API_ENDPOINT
           value: "http://whisper-inference-service"
         - name: PORT
@@ -43,22 +45,15 @@ spec:
             memory: "2Gi"
             cpu: "1000m"
 ---
-# Service to access the Gradio UI
 apiVersion: v1
 kind: Service
 metadata:
   name: whisper-gradio-service
   namespace: whisper-neuron
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: external
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
 spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 7860
   selector:
     app: whisper-gradio
-  type: LoadBalancer
-  loadBalancerClass: eks.amazonaws.com/nlb
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 7860
