@@ -90,11 +90,13 @@ kubectl apply -f namespace.yaml
 
 2. **Add Hugging Face Token**:
 ```bash
-# Replace <your_actual_hugging_face_token> with your token
+# Create a secret for your Hugging Face token
 kubectl create secret generic hf-secret \
-  --from-literal=hf_api_token=<your_actual_hugging_face_token> \
+  --from-literal=hf_api_token=YOUR_HF_TOKEN \
   -n vllm-inference
 ```
+
+> ⚠️ **Security Note**: Replace `YOUR_HF_TOKEN` with your actual token when running the command. Never commit actual tokens to Git repositories.
 
 ### 5. Deploy Model and UI
 

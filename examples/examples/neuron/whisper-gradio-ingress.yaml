@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/group.name: dbx-summit-alb-group
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/target-type: ip
+  creationTimestamp: "2025-05-18T12:05:35Z"
+  finalizers:
+  - group.ingress.eks.amazonaws.com/dbx-summit-alb-group
+  generation: 6
+  name: whisper-gradio-ingress
+  namespace: whisper-neuron
+  resourceVersion: "7747659"
+  uid: 4bb7358b-1982-4b68-ba8e-c013f87c601f
+spec:
+  ingressClassName: eks-auto-alb
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: whisper-gradio-service
+            port:
+              number: 80
+        path: /whisper
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - hostname: k8s-dbxsummitalbgroup-dfffc05b85-415879120.us-west-2.elb.amazonaws.com
