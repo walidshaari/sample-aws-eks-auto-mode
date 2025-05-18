@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whisper-gradio-ingress
+  namespace: whisper-neuron
+  annotations:
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: dbx-summit-alb-group
+    # Optional: Add SSL configuration if needed
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:region:account-id:certificate/certificate-id
+    
+    # Optional: Add IP restriction if needed
+    # alb.ingress.kubernetes.io/inbound-cidrs: YOUR_IP/32
+spec:
+  ingressClassName: eks-auto-alb 
+  rules:
+  - http:
+      paths:
+      - path: /whisper
+        pathType: Prefix
+        backend:
+          service:
+            name: whisper-gradio-service
+            port:
+              number: 80
