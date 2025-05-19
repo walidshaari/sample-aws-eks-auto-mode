@@ -2,19 +2,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: openweb-ui-ingress
-  namespace: vllm-inference 
+  namespace: vllm-inference
   annotations:
-    alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: dbx-summit-alb-group
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   ingressClassName: eks-auto-alb
   rules:
   - http:
       paths:
-      - path: /gpu  
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: open-webui-service
             port:
-              number: 80  # Change this to your service port
+              number: 80

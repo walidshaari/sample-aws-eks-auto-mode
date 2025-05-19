@@ -22,7 +22,8 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: cnrock/2048:latest@sha256:fc83e30a245af39105bb658ff5348fb0dec812ce9b0ff31915b4dc2ab5dce849
+        - image: public.ecr.aws/a3p8i0z7/dxb-2048:latest
+          #image: cnrock/2048:latest@sha256:fc83e30a245af39105bb658ff5348fb0dec812ce9b0ff31915b4dc2ab5dce849
           imagePullPolicy: Always
           name: app-2048
           ports:
