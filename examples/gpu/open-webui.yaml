@@ -18,9 +18,16 @@ spec:
           type: RuntimeDefault
       automountServiceAccountToken: false
       containers:
+      - name: nginx-proxy
+        image: nginx:alpine
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
       - name: open-webui
         image: kopi/openwebui@sha256:38a883697e6ee80a0cf2505e7a90c9f24d1ddf6dc8c6edc9bc58cbb729a64f2f
-        imagePullPolicy: Always
+        imagePullPolicy: Always 
         securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -44,4 +51,46 @@ spec:
           value: "http://vllm-service/v1"
         - name: WEBUI_BASE_URL
           value: "/gpu"
-
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: vllm-inference
+data:
+  default.conf: |
+    server {
+      listen 8000;
+      server_name _;
+    
+      # Fix for absolute redirects - strip the port from Host header
+      port_in_redirect off;
+    
+      # Handle /gpu without trailing slash
+      location = /gpu {
+        return 301 $scheme://$host/gpu/;
+      }
+    
+      # Handle /gpu/ with trailing slash
+      location /gpu/ {
+          proxy_pass http://localhost:8080/;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        
+          # Fix for sub-requests and static assets
+          proxy_redirect off;
+        
+          # Debugging headers to help identify issues
+          add_header X-Debug-Path $request_uri;
+          add_header X-Debug-Host $host;
+        
+          # Rewrite rule
+          rewrite ^/gpu/(.*) /$1 break;
+      }
+    }
