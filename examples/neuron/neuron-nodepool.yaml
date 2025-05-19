@@ -28,7 +28,6 @@ spec:
       - key: karpenter.sh/capacity-type
         operator: In
         values:
-        - spot
         - on-demand
       taints:
       - effect: NoSchedule
