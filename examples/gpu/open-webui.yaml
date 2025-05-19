@@ -42,6 +42,6 @@ spec:
           value: "xxx"
         - name: OPENAI_API_BASE_URLS
           value: "http://vllm-service/v1"
-        - name: BASE_URL
+        - name: WEBUI_BASE_URL
           value: "/gpu"
 

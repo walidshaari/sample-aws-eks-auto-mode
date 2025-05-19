@@ -11,7 +11,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /gpu
         pathType: Prefix
         backend:
           service:
