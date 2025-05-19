@@ -9,6 +9,12 @@ spec:
   selector:
     matchLabels:
       app: vllm-deepseek-server
+  nodeSelector:
+    nvidia.com/gpu: "true" 
+  tolerations:
+  - key: nvidia.com/gpu
+    value: "true"
+    effect: "NoSchedule"
   template:
     metadata:
       labels:
@@ -65,10 +71,7 @@ spec:
       - name: hf-secret-volume
         secret:
           secretName: hf-secret
-      tolerations:
-        - key: nvidia.com/gpu
-          value: "true"
-          effect: "NoSchedule"
+
 ---
 apiVersion: v1
 kind: Service
