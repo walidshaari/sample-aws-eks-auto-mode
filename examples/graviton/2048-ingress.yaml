@@ -21,6 +21,8 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: dbx-summit-alb-group
+    alb.ingress.kubernetes.io/healthcheck-path: /2048/
+
 spec:
   ingressClassName: eks-auto-alb
   rules:

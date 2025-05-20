@@ -48,9 +48,7 @@ spec:
         - name: OPENAI_API_KEY
           value: "xxx"
         - name: OPENAI_API_BASE_URLS
-          value: "http://vllm-service/v1"
-        - name: WEBUI_BASE_URL
-          value: "/gpu"
+          value: "http://vllm-service/v1;http://vllm-service-karsh/v1"
       volumes:
       - name: nginx-config
         configMap:
@@ -66,15 +64,21 @@ data:
     server {
       listen 8000;
       server_name _;
-    
+
       # Fix for absolute redirects - strip the port from Host header
       port_in_redirect off;
-    
+
+      # Root location for health checks
+      location = / {
+        return 200 'healthy';
+        add_header Content-Type text/plain;
+      }
+
       # Handle /gpu without trailing slash
       location = /gpu {
         return 301 $scheme://$host/gpu/;
       }
-    
+
       # Handle /gpu/ with trailing slash
       location /gpu/ {
           proxy_pass http://localhost:8080/;
